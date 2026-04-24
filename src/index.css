@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-teal: #0D7C70;
+  --color-teal-dark: #085950;
+  --color-amber: #B45309;
+  --color-gold: #C9A84C;
+  
+  --font-ku: "IBM Plex Arabic", sans-serif;
+  --font-en: "DM Sans", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-300;
+  }
+}
