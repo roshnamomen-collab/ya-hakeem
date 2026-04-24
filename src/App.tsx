@@ -617,6 +617,15 @@ export default function App() {
               <div className={`text-xs opacity-40 font-light ${isRtl ? 'font-ku' : 'font-en'}`}>
                  © 2026 Ya Hakeem Project · Slemani, Kurdistan
               </div>
+              <div className="flex items-center gap-2 justify-center md:justify-start">
+                 <a href="#" className={`inline-block px-3 py-1 rounded text-xs font-light border transition-all ${
+                   isDark 
+                     ? 'border-amber-500/30 text-amber-400/70 hover:border-amber-500/60 hover:text-amber-400' 
+                     : 'border-amber-600/30 text-amber-700/70 hover:border-amber-600/60 hover:text-amber-700'
+                 }`}>
+                   MIT License
+                 </a>
+              </div>
            </div>
         </div>
       </footer>
