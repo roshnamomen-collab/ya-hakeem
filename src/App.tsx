@@ -313,7 +313,7 @@ export default function App() {
           <ScrollReveal delay={0.6} className="flex flex-col items-center gap-6">
              <div className="flex flex-col items-center gap-4">
                 <a
-                  href="https://rzgartmi.github.io/ya-hakeem"
+                  href="https://yahakeem-b9349.web.app/"
                   target="_blank"
                   className="px-10 py-5 rounded-full bg-amber-500 text-white shadow-2xl transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center font-black text-sm uppercase tracking-widest"
                 >
@@ -442,7 +442,7 @@ export default function App() {
 
           <ScrollReveal className="flex flex-col items-center gap-6">
             <a
-              href="https://rzgartmi.github.io/ya-hakeem"
+              href="https://yahakeem-b9349.web.app/"
               target="_blank"
               className="px-10 py-5 rounded-full bg-teal text-white shadow-2xl transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center font-black text-sm uppercase tracking-widest"
             >
