@@ -221,7 +221,7 @@ const Navbar = ({ lang, setLang, isDark, toggleTheme }: { lang: Language, setLan
 
 export default function App() {
   const [lang, setLang] = useState<Language>('ku');
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [showTop, setShowTop] = useState(false);
 
   const { scrollYProgress } = useScroll();
