@@ -76,7 +76,7 @@ const PILLARS_CONTENT = [
     en: 'The Meaning of Healing',
     ku: 'مانای چاکبوونەوە',
     en_desc: 'Medicine sees the pages. Risale-i Nur reads the meaning.',
-    ku_desc: 'پزیشکی لاپەڕەکان دەبینێت. نامەکانی نور ماناکەی دەخوێنێتەوە.',
+    ku_desc: 'پزیشکی لاپەڕەکان دەبینێت. ریسالەی نور ماناکەی دەخوێنێتەوە.',
     gold: true
   }
 ];
@@ -304,8 +304,8 @@ export default function App() {
              <p className={`text-lg md:text-xl font-light leading-relaxed mb-10
                 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                {t(
-                 'سیستەمێکی داکۆکیکاری تەندروستی و پزیشکی بۆ هەرێمی کوردستان — بونیاد نراوە بۆ بەخشینی ئۆمێد بە نەخۆش، حەقیقەت بە پزیشک، و ڕێگایەک بۆ چاکبوونەوەی ڕاستەقینە بۆ دەردەداران.',
-                 'A Health and Medical Advocacy Ecosystem for the Kurdistan Region — built to give patients hope, doctors truth, and the ailing a path to true healing.'
+                 'ناوەندێک بۆ دۆزینەوەی مانا لە زانستی پزیشکیدا. هەوڵێک بۆ بنیاتنانی متمانە و ئومێد بۆ پزیشکان و نەخۆشەکان. پشتبەستوو بە ریسالەی نوور و درەوشانەوەی ناوە پیرۆز و جوانەکانی حەکیم و شافی.',
+                 'An ecosystem for Restoring meaning to medicine, Rebuilding trust and hope for doctors and patients. Inspired by Risale-i Nur and the divine names Al-Ḥakīm (The All-Wise) and Ash-Shāfī (The Healer).'
                )}
              </p>
           </ScrollReveal>
@@ -409,7 +409,7 @@ export default function App() {
               <h2 className="text-4xl md:text-5xl font-black mb-6">{t('چارەسەرەکە', 'The Solution')}</h2>
               <p className={`text-xl font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                 {t(
-                  'یا حەکیم شەش کۆڵەکەیە کە لەلایەن یەک پەیامەوە یەکخراون — چاکبوونەوەی ماددی و ڕۆحی پێکەوە.',
+                  'یا حەکیم شەش کۆڵەکەیە کە لەلایەن یەک پەیامەوە یەکخراون — چاکبوونەوەی ماددی و مەعنەوی پێکەوە.',
                   'Ya Hakeem is six pillars unified by one mission — material and spiritual healing together.'
                 )}
               </p>
@@ -462,7 +462,7 @@ export default function App() {
                <h3 className={`text-2xl md:text-4xl font-black leading-tight mb-12
                   ${isRtl ? 'font-ku' : 'font-playfair italic'}`}>
                   {t(
-                    'ئێمە بەدوای دەرمانە ماددییەکانماندا دەگەڕێین لە دەرمانخانەی خودایی زەوی، و بەدوای دەرمانە ڕۆحییەکانماندا دەگەڕێین لە دەرمانخانەی خودایی قورئان.',
+                    'ئێمە بەدوای دەرمانە ماددییەکانماندا دەگەڕێین لە دەرمانخانەی خودایی زەوی، و بەدوای دەرمانە مەعنەوییەکانماندا دەگەڕێین لە دەرمانخانەی خودایی قورئان.',
                     'We seek our material remedies in the divine pharmacy of earth, and our spiritual remedies in the divine pharmacy of the Quran.'
                   )}
                </h3>
@@ -538,7 +538,7 @@ export default function App() {
           <ScrollReveal delay={0.4} className="mt-12 p-8 rounded-[40px] border border-teal/20 bg-teal/5 text-center">
              <p className={`text-lg font-light leading-relaxed ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
                 {t(
-                  'یا حەکیم بەدوای حیکمەتی قووڵتری قورئان و نامەکانی نوردا دەگەڕێت، چونکە لاشەیەکی چاکبووەوە بەبێ ڕۆحێکی ئارام تەنها نیوەی چارەسەرە.',
+                  'یا حەکیم بەدوای حیکمەتی قووڵتری قورئان و ریسالەی نوردا دەگەڕێت، چونکە لاشەیەکی چاکبووەوە بەبێ ڕۆحێکی ئارام تەوفیرێکی نییە.',
                   'Ya Hakeem seeks the deeper wisdom of the Quran and Risale-i Nur, because a healed body without a peaceful soul is only half a cure.'
                 )}
              </p>
@@ -565,7 +565,7 @@ export default function App() {
                { phase: 3, date: 'Feb 2026', en: 'Knowledge Base', ku: 'قۆناغی سێیەم: بنکەی زانیاری', desc_en: '• Medical Condition Hubs\n• 500+ Curated Articles\n• Patient Education Handouts', desc_ku: '• ناوەندەکانی زانیاری نەخۆشییەکان\n• زیاتر لە ٥٠٠ بابەتی هەڵبژێردراو\n• بڵاوکراوەی پەروەردەیی بۆ نەخۆش' },
                { phase: 4, date: 'May 2026', en: 'Community & Media', ku: 'قۆناغی چوارەم: کۆمەڵگە و میدیا', desc_en: '• Medical Webinars\n• Content Creators Network\n• Health Advocacy Campaigns', desc_ku: '• وێبینار و سیمیناری پزیشکی\n• تۆڕی دروستکەرانی ناوەڕۆک\n• هەڵمەتەکانی هۆشیاری تەندروستی' },
                { phase: 5, date: 'Aug 2026', en: 'Stream EHR', ku: 'قۆناغی پێنجەم: تۆماری ئەلیکترۆنی', desc_en: '• Stream UI Beta Launch\n• AI Voice Parsing layer\n• Mobile App integration', desc_ku: '• دەستپێکی وەشانى تاقیکاری ستریم\n• شیکردنەوەی دەنگی بە زیرەکی دەستکرد\n• یەکخستنی ئەپی مۆبایل' },
-               { phase: 6, date: 'Nov 2026', en: 'Hikmat Layer', ku: 'قۆناغی شەشەم: چینی حیکمەت', desc_en: '• Meaning of Health Series\n• Risale-i Nur Integration\n• Spiritual Wellbeing Circles', desc_ku: '• زنجیرەی مانای تەندروستی\n• یەکخستنی نامەکانی نور\n• کۆڕەکانی تەندروستی ڕۆحی' },
+               { phase: 6, date: 'Nov 2026', en: 'Hikmat Layer', ku: 'قۆناغی شەشەم: چینی حیکمەت', desc_en: '• Meaning of Health Series\n• Risale-i Nur Integration\n• Spiritual Wellbeing Circles', desc_ku: '• زنجیرەی مانای تەندروستی\n• یەکخستنی ریسالەی نور\n• کۆڕەکانی سەلامەتیی ڕۆحی' },
              ].map((item) => (
                 <ScrollReveal key={item.phase} className={`p-8 rounded-[40px] border relative overflow-hidden ${isDark ? 'bg-zinc-900 border-white/5' : 'bg-zinc-50 border-black/5'}`}>
                    <div className="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl -mr-4 -mt-4">{item.phase}</div>
