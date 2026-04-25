@@ -288,7 +288,7 @@ export default function App() {
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <ScrollReveal className="mb-6">
             <span className="inline-block px-4 py-1.5 rounded-full bg-teal/10 text-teal text-[10px] uppercase font-bold tracking-[0.2em] border border-teal/20">
-               {t('پێشکەشکردنی یا حەکیم', 'Introducing Ya Hakeem')}
+               {t('ناساندنی یا حەکیم', 'Introducing Ya Hakeem')}
             </span>
           </ScrollReveal>
 
@@ -304,8 +304,8 @@ export default function App() {
              <p className={`text-lg md:text-xl font-light leading-relaxed mb-10
                 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                {t(
-                 'سیستەمێکی لێپرسینەوە و داکۆکیکاری پزیشکی بۆ هەرێمی کوردستان — بونیاد نراوە بۆ بەخشینی ڕاستی بە نەخۆش، شکۆ بۆ پزیشک، و ڕێگایەک بۆ چاکبوونەوەی ڕاستەقینە بۆ ئازارچێژان.',
-                 'A Medical Accountability & Advocacy Ecosystem for the Kurdistan Region — built to give patients truth, doctors dignity, and the ailing a path to true healing.'
+                 'سیستەمێکی داکۆکیکاری تەندروستی و پزیشکی بۆ هەرێمی کوردستان — بونیاد نراوە بۆ بەخشینی ئۆمێد بە نەخۆش، حەقیقەت بە پزیشک، و ڕێگایەک بۆ چاکبوونەوەی ڕاستەقینە بۆ دەردەداران.',
+                 'A Health and Medical Advocacy Ecosystem for the Kurdistan Region — built to give patients hope, doctors truth, and the ailing a path to true healing.'
                )}
              </p>
           </ScrollReveal>
@@ -324,7 +324,7 @@ export default function App() {
                 </p>
              </div>
               <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.3em] opacity-40 mt-4">
-                {t('بۆ دۆزینەوە کلیک بکە', 'Scroll to explore')}
+                {t('بچۆرە خوارەوە', 'Scroll to explore')}
               </div>
           </ScrollReveal>
         </div>
@@ -349,7 +349,7 @@ export default function App() {
               <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-red-500">{t('کێشەکە', 'The Problem')}</h2>
               <p className={`text-xl font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                 {t(
-                  'تەندروستی لە کوردستان بە چوار شێوازی دیار تێکچووە — و دانەیەکی نادیار.',
+                  'تەندروستی لە کوردستان بە چوار شێوازی دیار و دانەیەکی نادیار تێکچووە',
                   'Healthcare in Kurdistan is broken in four visible ways — and one invisible one.'
                 )}
               </p>
@@ -615,7 +615,7 @@ export default function App() {
 
            <div className="space-y-6">
               <div className={`text-xs opacity-40 font-light ${isRtl ? 'font-ku' : 'font-en'}`}>
-                 © 2026 Ya Hakeem Project · Slemani, Kurdistan
+                 © 2026 Ya Hakeem Project · Halabja, Kurdistan
               </div>
               <div className="flex items-center gap-2 justify-center md:justify-start">
                  <a href="#" className={`inline-block px-3 py-1 rounded text-xs font-light border transition-all ${
