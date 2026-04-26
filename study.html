@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>RheumSprint Pro — Flexible Pillars, Dynamic Categories, Smart Navbar</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface2: #f0f0f2;
+    --border: #d8d8dc;
+    --text: #1a1a1e;
+    --text2: #5a5a6a;
+    --text3: #8a8a9a;
+    --accent: #1a6bdb;
+    --accent2: #0e4fa8;
+    --accent-bg: #eaf0fd;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --header-h: 56px;
+    --tab-h: 56px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.03);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f13;
+    --surface: #1c1c22;
+    --surface2: #26262e;
+    --border: #3a3a46;
+    --text: #f0f0f5;
+    --text2: #a0a0b0;
+    --text3: #606070;
+    --accent: #4d8ef5;
+    --accent-bg: #1a2540;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background 0.2s;
+  }
+
+  /* Header with enhanced shadow */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-h);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .logo-icon { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #1a6bdb, #0e4fa8); display: flex; align-items: center; justify-content: center; font-size: 13px; color: white; }
+  .header-tabs { display: flex; gap: 4px; margin-left: 16px; }
+  .header-tab { padding: 6px 16px; border-radius: 8px; background: transparent; color: var(--text2); font-weight: 500; border: none; cursor: pointer; }
+  .header-tab.active { background: var(--accent-bg); color: var(--accent); }
+  .spacer { flex: 1; }
+  .theme-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text2); font-size: 16px; cursor: pointer; }
+  .main { padding-top: var(--header-h); padding: var(--header-h) 16px 16px; max-width: 1200px; margin: 0 auto; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Bottom Nav with hide/show on scroll - hidden by default animation */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    height: var(--tab-h);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
+    transform: translateY(0);
+    z-index: 99;
+  }
+  .bottom-nav.hide-nav {
+    transform: translateY(100%);
+  }
+  .bottom-nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+  }
+  .bottom-nav-btn.active { color: var(--accent); }
+  @media (max-width: 680px) { .header-tabs { display: none; } .bottom-nav { display: flex; } .main { padding-bottom: calc(var(--tab-h) + 12px); } }
+
+  /* Pillar Slider - enhanced card design with flexible content */
+  .pillar-slider-container { margin-bottom: 28px; }
+  .pillar-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 8px 8px 16px; scroll-behavior: smooth; }
+  .pillar-slide { flex: 0 0 calc(100% - 48px); scroll-snap-align: center; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: box-shadow 0.2s; }
+  .pillar-slide:hover { box-shadow: var(--shadow-md); }
+  @media (min-width: 680px) { .pillar-slide { flex: 0 0 calc(50% - 16px); } }
+  .pillar-card-inner { padding: 14px; }
+  .pillar-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .pillar-content-area { min-height: 120px; }
+  .pillar-content-item { background: var(--surface2); padding: 10px; border-radius: var(--radius-sm); margin-bottom: 8px; font-size: 13px; border-left: 3px solid var(--accent); }
+  .pillar-quote { font-style: italic; color: var(--accent); background: var(--accent-bg); }
+  .pillar-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+
+  /* Insight Cards with dynamic categories */
+  .insight-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .insight-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .insight-category-badge { background: var(--accent-bg); color: var(--accent); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .insight-timestamp { font-size: 10px; color: var(--text3); font-family: monospace; }
+  .insight-text { font-size: 13.5px; margin: 8px 0; line-height: 1.45; }
+  .insight-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .tag { background: var(--surface2); padding: 3px 8px; border-radius: 16px; font-size: 10px; font-weight: 500; cursor: pointer; transition: all 0.1s; border: 1px solid var(--border); }
+  .tag.active-filter { background: var(--accent); color: white; border-color: var(--accent); }
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0;
+    align-items: center;
+    background: var(--surface2);
+    padding: 12px;
+    border-radius: var(--radius);
+  }
+  .filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .filter-select { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 13px; cursor: pointer; }
+  .btn-icon { background: var(--surface2); border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: all 0.1s; }
+  .btn { padding: 8px 14px; border-radius: var(--radius-sm); border: none; background: var(--accent); color: white; font-weight: 600; cursor: pointer; }
+  .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; background: var(--surface2); border: none; cursor: pointer; }
+  .search-input { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; color: var(--text); width: 100%; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; }
+  .modal-content { background: var(--surface); border-radius: var(--radius); padding: 20px; width: 90%; max-width: 550px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--border); }
+  .abbrev-table { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow-x: auto; }
+  .abbrev-header, .abbrev-row { display: grid; grid-template-columns: 100px 1fr 110px 80px; padding: 10px 12px; border-bottom: 1px solid var(--border); align-items: center; }
+  @media (max-width: 680px) { .abbrev-header, .abbrev-row { grid-template-columns: 80px 1fr 70px; } .desktop-cat { display: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="logo-icon">R</div><span>Rheum<span style="color:var(--accent)">Sprint</span></span></div>
+  <nav class="header-tabs">
+    <button class="header-tab active" onclick="switchTab('dashboard')">📋 Dashboard</button>
+    <button class="header-tab" onclick="switchTab('abbreviations')">🔤 Abbreviations</button>
+  </nav>
+  <div class="spacer"></div>
+  <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+</header>
+
+<div class="main">
+  <!-- DASHBOARD TAB -->
+  <div class="tab-panel active" id="tab-dashboard">
+    <div class="flex-between"><h2>🏛 Clinical Pillars</h2><button class="btn-sm" onclick="showAddPillarModal()" style="background:var(--accent);color:white;">+ New Pillar</button></div>
+    <div class="pillar-slider-container"><div class="pillar-slider" id="pillarSlider"></div>
+      <div style="display:flex;justify-content:center;gap:12px;margin-top:6px;"><button class="btn-sm" onclick="slidePillar(-1)">◀ Prev</button><button class="btn-sm" onclick="slidePillar(1)">Next ▶</button></div>
+    </div>
+    <div class="flex-between" style="margin-top: 24px;"><h2>💡 Clinical Insights</h2>
+      <div><button class="btn-sm" onclick="exportInsightsToCSV()" style="background:var(--accent);color:white;">📤 Export CSV</button>
+      <button class="btn-sm" onclick="triggerImport()">📥 Import CSV</button><input type="file" id="csvImportFile" accept=".csv" style="display:none" onchange="importInsightsFromCSV(this)"/>
+      <button class="btn-sm" onclick="deleteAllInsights()" style="background:#ffebee;color:#c62828;">🗑 Delete All</button></div>
+    </div>
+    <!-- Add Insight Form -->
+    <div style="background:var(--surface);border-radius:var(--radius);padding:14px;margin:12px 0;border:1px solid var(--border);">
+      <input type="text" id="insight-text-input" class="search-input" placeholder="Write your clinical insight..." style="margin-bottom:8px;" />
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <div style="flex:1; display:flex; gap:4px;"><input type="text" id="insight-category-input" class="search-input" placeholder="Category (new or existing)" list="category-datalist" style="flex:2"/><datalist id="category-datalist"></datalist>
+        <input type="text" id="insight-tags-input" class="search-input" style="flex:3;" placeholder="Tags (comma separated)" /></div>
+      </div>
+      <button class="btn" onclick="addInsight()">+ Add Insight</button>
+    </div>
+    <!-- Filters -->
+    <div class="filter-bar"><div class="filter-group"><span>📂 Category:</span><select id="category-filter" class="filter-select" onchange="applyFilters()"></select></div>
+      <div class="filter-group"><span>🏷️ Tags:</span><div id="tag-filters-container" style="display:flex;flex-wrap:wrap;gap:6px;"></div></div>
+      <button class="filter-clear" onclick="clearFilters()" style="background:transparent;border:none;color:var(--accent);cursor:pointer;">✖ Clear filters</button>
+    </div>
+    <div id="insights-list-container"></div>
+  </div>
+
+  <!-- ABBREVIATIONS TAB -->
+  <div class="tab-panel" id="tab-abbreviations">
+    <div class="flex-between"><h2>📖 Abbreviation Master List</h2><button class="btn-sm" onclick="deleteAllCustomAbbrev()" style="background:#ffebee;color:#c62828;">⚠ Delete All Custom</button></div>
+    <div style="margin:12px 0; display:flex; gap:8px; flex-wrap:wrap;">
+      <input type="text" id="abbrev-search" class="search-input" placeholder="Search code / meaning..." style="flex:1;" oninput="renderAbbrevTable()">
+      <select id="cat-filter-abbrev" class="search-input" onchange="renderAbbrevTable()"></select>
+    </div>
+    <div class="abbrev-table"><div class="abbrev-header"><div>Code</div><div>Meaning</div><div class="desktop-cat">Category</div><div>Actions</div></div><div id="abbrev-table-body"></div></div>
+    <div style="background:var(--surface);border-radius:var(--radius);padding:16px;margin-top:16px;border:1px solid var(--border);">
+      <h4>➕ Add Custom Abbreviation</h4>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+        <input type="text" id="new-code" placeholder="Code" style="flex:1;" class="search-input">
+        <input type="text" id="new-meaning" placeholder="Meaning" style="flex:2;" class="search-input">
+        <select id="new-cat-select" class="search-input"></select>
+        <button class="btn" onclick="addCustomAbbrev()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav" id="bottomNav"><button class="bottom-nav-btn active" onclick="switchTab('dashboard')">📋 Dashboard</button><button class="bottom-nav-btn" onclick="switchTab('abbreviations')">🔤 Abbrevs</button></nav>
+
+<!-- Edit Modals -->
+<div id="editModal" class="modal-overlay" onclick="if(event.target===this) closeModal()"><div class="modal-content"><h3>✏️ Edit Insight</h3><input type="hidden" id="edit-id" /><label>Text</label><textarea id="edit-text" rows="3" style="width:100%"></textarea><label>Category</label><input type="text" id="edit-category" class="search-input" list="category-datalist-edit" /><datalist id="category-datalist-edit"></datalist><label>Tags</label><input type="text" id="edit-tags" class="search-input" /><div style="display:flex; gap:8px; margin-top:16px;"><button class="btn-sm" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveEditInsight()">Save</button></div></div></div>
+
+<div id="pillarEditModal" class="modal-overlay" onclick="if(event.target===this) closePillarModal()"><div class="modal-content"><h3>🗂 Edit Pillar</h3><input type="hidden" id="pillar-edit-idx" /><label>Title</label><input type="text" id="pillar-title" class="search-input" /><label>Subtitle</label><input type="text" id="pillar-subtitle" class="search-input" /><label>Content (each line: type:content | types: text, quote)</label><div id="pillar-content-editor"></div><button class="btn" onclick="savePillarEdit()">Save Changes</button></div></div>
+
+<script>
+  // ---------- DATA ----------
+  let customEntries = JSON.parse(localStorage.getItem('rsp_custom') || '[]');
+  let insights = JSON.parse(localStorage.getItem('rsp_insights_v4') || '[]');
+  let userPillars = JSON.parse(localStorage.getItem('rsp_pillars_v2') || '[]');
+  let activeCategoryFilter = 'all';
+  let activeTagFilters = new Set();
+
+  // Default pillars with flexible content array: each item { type: 'text' or 'quote', content: string }
+  const DEFAULT_PILLARS = [
+    { id: "p1", title: "The Host", subtitle: "Who is this patient?", icon: "🧬", content: [{ type: "text", content: "Age → Youth JIA, middle RA, elderly PMR/GCA" },{ type: "text", content: "Sex → F »M SLE/RA, M »F AS/Gout" },{ type: "quote", content: "Always check medication list: diuretics → gout, hydralazine → DILE" }] },
+    { id: "p2", title: "The Pattern", subtitle: "Map joint disease", icon: "🗺", content: [{ type: "text", content: "Symmetry → Symm RA/SLE, Asym PsA/ReA" },{ type: "quote", content: "DIP involvement = PsA or OA, never RA" }] },
+    { id: "p3", title: "The Time", subtitle: "Tempo tells tale", icon: "⏱", content: [{ type: "text", content: "<24h acute → Gout, Septic" },{ type: "text", content: "EMS >1hr = inflammatory" },{ type: "quote", content: "Night pain waking at 3-5am = inflammatory axial disease" }] },
+    { id: "p4", title: "The Systemic", subtitle: "Beyond joints", icon: "🫀", content: [{ type: "text", content: "ILD → SSc, RA; PAH → SSc, SLE" },{ type: "quote", content: "Raynaud + nailfold capillaries = SSc until proven otherwise" }] }
+  ];
+  function loadPillars() { if (userPillars.length === 0) userPillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS)); savePillars(); renderPillarSlider(); }
+  function savePillars() { localStorage.setItem('rsp_pillars_v2', JSON.stringify(userPillars)); }
+  function renderPillarSlider() {
+    const container = document.getElementById('pillarSlider'); if (!container) return;
+    container.innerHTML = userPillars.map((pillar, idx) => {
+      const contentHtml = (pillar.content || []).map(item => `<div class="pillar-content-item ${item.type === 'quote' ? 'pillar-quote' : ''}">${item.type === 'quote' ? '❝ ' : '📌 '}${escapeHtml(item.content)}</div>`).join('');
+      return `<div class="pillar-slide"><div class="pillar-card-inner"><div class="pillar-header-row"><div><div style="font-size:28px;">${pillar.icon || '📌'}</div><strong style="font-size:16px;">${escapeHtml(pillar.title)}</strong><div style="font-size:11px;color:var(--text3)">${escapeHtml(pillar.subtitle)}</div></div></div><div class="pillar-content-area">${contentHtml || '<div class="pillar-content-item">✨ Click edit to add content (text or quote)</div>'}</div><div class="pillar-actions"><button class="btn-icon" onclick="openPillarEditor(${idx})">✏️ Edit Pillar</button><button class="btn-icon" onclick="deletePillar(${idx})" style="color:#c62828;">🗑 Delete</button></div></div></div>`;
+    }).join('');
+    if(userPillars.length===0) container.innerHTML='<div style="padding:20px;text-align:center;">No pillars. Click "+ New Pillar" to create.</div>';
+  }
+  function slidePillar(d) { const s=document.getElementById('pillarSlider'); if(s) s.scrollBy({ left: s.clientWidth*0.9*d, behavior:'smooth' }); }
+  function openPillarEditor(idx) { 
+    const p = userPillars[idx];
+    document.getElementById('pillar-edit-idx').value = idx;
+    document.getElementById('pillar-title').value = p.title;
+    document.getElementById('pillar-subtitle').value = p.subtitle;
+    const container = document.getElementById('pillar-content-editor');
+    container.innerHTML = `<div id="pillar-content-list"></div><button class="btn-sm" onclick="addPillarContentItem()" style="margin-top:8px;">+ Add Content (text/quote)</button>`;
+    const listDiv = document.getElementById('pillar-content-list');
+    (p.content || []).forEach((item, i) => {
+      const div = document.createElement('div');
+      div.style.marginBottom = '8px';
+      div.style.display = 'flex';
+      div.style.gap = '6px';
+      div.innerHTML = `<select id="pctype-${i}" style="padding:5px;" class="filter-select"><option ${item.type==='text'?'selected':''} value="text">📘 Text</option><option ${item.type==='quote'?'selected':''} value="quote">❝ Quote</option></select><input type="text" id="pccontent-${i}" value="${escapeHtml(item.content)}" style="flex:1;" class="search-input"><button class="btn-icon" onclick="removePillarContentItem(${i})">✖</button>`;
+      listDiv.appendChild(div);
+    });
+    document.getElementById('pillarEditModal').style.display = 'flex';
+  }
+  window.pillarContentCounter = 0;
+  function addPillarContentItem() { const list=document.getElementById('pillar-content-list'); const idx=Date.now(); const div=document.createElement('div'); div.style.marginBottom='8px'; div.style.display='flex'; div.style.gap='6px'; div.innerHTML=`<select id="pctype-new-${idx}" class="filter-select"><option value="text">📘 Text</option><option value="quote">❝ Quote</option></select><input type="text" id="pccontent-new-${idx}" placeholder="Enter content..." class="search-input" style="flex:1;"><button class="btn-icon" onclick="this.parentElement.remove()">✖</button>`; list.appendChild(div); }
+  function removePillarContentItem(idx) { const el=document.getElementById(`pctype-${idx}`)?.parentElement; if(el) el.remove(); }
+  function savePillarEdit() { const idx = parseInt(document.getElementById('pillar-edit-idx').value); const newTitle = document.getElementById('pillar-title').value.trim(); const newSub = document.getElementById('pillar-subtitle').value.trim(); const contentItems = []; const listDiv = document.getElementById('pillar-content-list'); if(listDiv){ const rows = listDiv.children; for(let i=0; i<rows.length; i++){ const typeSelect = rows[i].querySelector('select'); const contentInput = rows[i].querySelector('input[type="text"]'); if(typeSelect && contentInput && contentInput.value.trim()){ contentItems.push({ type: typeSelect.value, content: contentInput.value.trim() }); } } } const newContentInputs = document.querySelectorAll('[id^="pctype-new-"]'); newContentInputs.forEach(sel => { const parent = sel.parentElement; const contentInp = parent.querySelector('input[type="text"]'); if(contentInp && contentInp.value.trim()){ contentItems.push({ type: sel.value, content: contentInp.value.trim() }); } }); if(newTitle) userPillars[idx] = { ...userPillars[idx], title: newTitle, subtitle: newSub, content: contentItems }; savePillars(); renderPillarSlider(); closePillarModal(); }
+  function deletePillar(idx) { if(confirm("Delete pillar?")){ userPillars.splice(idx,1); savePillars(); renderPillarSlider(); } }
+  function showAddPillarModal() { let title=prompt("Pillar title"); if(!title) return; let subtitle=prompt("Subtitle")||""; userPillars.push({ id:Date.now().toString(), title, subtitle, icon:"📘", content: [{ type:"text", content:"New insight here" }] }); savePillars(); renderPillarSlider(); }
+  function closePillarModal() { document.getElementById('pillarEditModal').style.display = 'none'; }
+
+  // ---------- INSIGHTS with dynamic categories ----------
+  function getAllCategories() { return [...new Set(insights.map(i=>i.category).filter(Boolean))]; }
+  function updateCategoryDatalists() { const cats=getAllCategories(); const datalist=document.getElementById('category-datalist'); if(datalist) datalist.innerHTML=cats.map(c=>`<option value="${escapeHtml(c)}">`).join(''); const editDatalist=document.getElementById('category-datalist-edit'); if(editDatalist) editDatalist.innerHTML=cats.map(c=>`<option value="${escapeHtml(c)}">`).join(''); const filterSelect=document.getElementById('category-filter'); if(filterSelect){ filterSelect.innerHTML='<option value="all">All Categories</option>'+cats.map(c=>`<option value="${escapeHtml(c)}" ${activeCategoryFilter===c?'selected':''}>${escapeHtml(c)}</option>`).join(''); if(cats.length===0) filterSelect.innerHTML='<option value="all">All Categories</option>'; } }
+  function getCurrentTimestamp() { const now=new Date(); return now.toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
+  function addInsight() {
+    const text = document.getElementById('insight-text-input').value.trim();
+    if(!text) return alert("Write an insight");
+    let category = document.getElementById('insight-category-input').value.trim();
+    if(!category) category = "Uncategorized";
+    const tagsRaw = document.getElementById('insight-tags-input').value.trim();
+    let tags = tagsRaw ? tagsRaw.split(',').map(t=>t.trim().toLowerCase()).filter(t=>t) : [];
+    const now = getCurrentTimestamp();
+    insights.unshift({ id:Date.now(), text, category, tags, createdAt:now, updatedAt:now });
+    localStorage.setItem('rsp_insights_v4', JSON.stringify(insights));
+    document.getElementById('insight-text-input').value='';
+    document.getElementById('insight-category-input').value='';
+    document.getElementById('insight-tags-input').value='';
+    updateCategoryDatalists();
+    applyFilters();
+  }
+  function getAllTagsFromInsights() { const set=new Set(); insights.forEach(i=>{ if(i.tags) i.tags.forEach(t=>set.add(t)); }); return Array.from(set).sort(); }
+  function renderTagFilters() { const container=document.getElementById('tag-filters-container'); if(!container) return; const allTags=getAllTagsFromInsights(); container.innerHTML=allTags.map(t=>`<span class="tag ${activeTagFilters.has(t)?'active-filter':''}" data-tag="${escapeHtml(t)}" onclick="toggleTagFilter('${escapeHtml(t)}')">#${escapeHtml(t)}</span>`).join(''); if(allTags.length===0) container.innerHTML='<span style="font-size:12px;">No tags yet</span>'; }
+  function toggleTagFilter(tag) { if(activeTagFilters.has(tag)) activeTagFilters.delete(tag); else activeTagFilters.add(tag); renderTagFilters(); applyFilters(); }
+  function applyFilters() { activeCategoryFilter = document.getElementById('category-filter')?.value || 'all'; renderInsightsList(); renderTagFilters(); updateCategoryDatalists(); }
+  function clearFilters() { activeCategoryFilter='all'; activeTagFilters.clear(); if(document.getElementById('category-filter')) document.getElementById('category-filter').value='all'; renderTagFilters(); applyFilters(); }
+  function renderInsightsList() {
+    const container=document.getElementById('insights-list-container'); if(!container) return;
+    let filtered = insights.filter(i => (activeCategoryFilter==='all' || i.category===activeCategoryFilter) && (activeTagFilters.size===0 || (i.tags && i.tags.some(t=>activeTagFilters.has(t)))));
+    if(filtered.length===0){ container.innerHTML='<div style="padding:20px;text-align:center;">✨ No insights match filters.</div>'; return; }
+    container.innerHTML=filtered.map(i=>`<div class="insight-card"><div class="insight-header"><span class="insight-category-badge" onclick="document.getElementById('category-filter').value='${escapeHtml(i.category)}';applyFilters()">📁 ${escapeHtml(i.category)}</span><span class="insight-timestamp">🕒 ${escapeHtml(i.updatedAt||i.createdAt)}</span></div><div class="insight-text">💡 ${escapeHtml(i.text)}</div><div class="insight-tags">${(i.tags||[]).map(t=>`<span class="tag" onclick="toggleTagFilter('${escapeHtml(t)}')">#${escapeHtml(t)}</span>`).join('')}</div><div class="insight-actions"><button class="btn-icon" onclick="openEditInsightModal(${i.id})">✏️ Edit</button><button class="btn-icon" onclick="deleteInsight(${i.id})" style="color:#c62828;">🗑 Delete</button></div></div>`).join('');
+  }
+  function openEditInsightModal(id) { const i=insights.find(x=>x.id===id); if(!i) return; document.getElementById('edit-id').value=i.id; document.getElementById('edit-text').value=i.text; document.getElementById('edit-category').value=i.category; document.getElementById('edit-tags').value=(i.tags||[]).join(', '); updateCategoryDatalists(); document.getElementById('editModal').style.display='flex'; }
+  function saveEditInsight() { const id=parseInt(document.getElementById('edit-id').value); const newText=document.getElementById('edit-text').value.trim(); const newCat=document.getElementById('edit-category').value.trim()||"Uncategorized"; const tagsRaw=document.getElementById('edit-tags').value.trim(); const newTags=tagsRaw?tagsRaw.split(',').map(t=>t.trim().toLowerCase()).filter(t=>t):[]; if(!newText) return; const idx=insights.findIndex(i=>i.id===id); if(idx!==-1){ insights[idx]={...insights[idx], text:newText, category:newCat, tags:newTags, updatedAt:getCurrentTimestamp()}; localStorage.setItem('rsp_insights_v4',JSON.stringify(insights)); closeModal(); applyFilters(); } }
+  function deleteInsight(id) { if(confirm("Delete?")){ insights=insights.filter(i=>i.id!==id); localStorage.setItem('rsp_insights_v4',JSON.stringify(insights)); applyFilters(); } }
+  function deleteAllInsights() { if(confirm("Delete ALL?")){ insights=[]; localStorage.setItem('rsp_insights_v4',JSON.stringify(insights)); applyFilters(); } }
+  function closeModal() { document.getElementById('editModal').style.display='none'; }
+
+  // CSV functions
+  function exportInsightsToCSV() { let rows=[["id","text","category","tags","createdAt","updatedAt"]]; insights.forEach(i=>{ rows.push([i.id,`"${i.text.replace(/"/g,'""')}"`,i.category,`"${(i.tags||[]).join(';')}"`,i.createdAt||'',i.updatedAt||'']); }); const blob=new Blob(["\uFEFF"+rows.map(r=>r.join(",")).join("\n")],{type:"text/csv"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="rheum_insights.csv"; a.click(); URL.revokeObjectURL(a.href); }
+  function triggerImport() { document.getElementById('csvImportFile').click(); }
+  function importInsightsFromCSV(input) { const file=input.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=function(e){ const lines=e.target.result.split(/\r?\n/); if(lines.length<2) return; const headers=lines[0].split(',').map(h=>h.replace(/"/g,'').trim()); const textIdx=headers.findIndex(h=>h==='text'), catIdx=headers.findIndex(h=>h==='category'), tagsIdx=headers.findIndex(h=>h==='tags'); if(textIdx===-1) return alert("Missing text column"); let imported=0; for(let i=1;i<lines.length;i++){ if(!lines[i].trim()) continue; let row=lines[i].match(/(".*?"|[^,]*)(,|$)/g).map(x=>x.replace(/,$/,'').replace(/^"|"$/g,'').replace(/""/g,'"')); if(row.length<=textIdx) continue; let text=row[textIdx]?.trim(); if(!text) continue; let category=(catIdx!==-1&&row[catIdx])?row[catIdx].trim():"Uncategorized"; let tagsRaw=(tagsIdx!==-1&&row[tagsIdx])?row[tagsIdx].trim():""; let tags=tagsRaw?tagsRaw.split(';').map(t=>t.trim().toLowerCase()).filter(t=>t):[]; const now=getCurrentTimestamp(); insights.unshift({ id:Date.now()+i, text, category, tags, createdAt:now, updatedAt:now }); imported++; } if(imported){ localStorage.setItem('rsp_insights_v4',JSON.stringify(insights)); applyFilters(); alert(`Imported ${imported} insights.`); } else alert("No valid insights"); input.value=''; }; reader.readAsText(file,"UTF-8"); }
+
+  // ---------- ABBREVIATIONS with edit & delete ----------
+  const BASE_ABBREV = [{ cat:"Core", code:"RA", meaning:"Rheumatoid Arthritis"},{ cat:"Core", code:"SLE", meaning:"Systemic Lupus"},{ cat:"Serology", code:"ANA", meaning:"Antinuclear Antibody"},{ cat:"Treatment", code:"MTX", meaning:"Methotrexate"}];
+  function getAllAbbrev() { return [...BASE_ABBREV, ...customEntries]; }
+  function renderAbbrevTable() { const search=document.getElementById('abbrev-search')?.value.toLowerCase()||''; const catFil=document.getElementById('cat-filter-abbrev')?.value||'All'; let filtered=getAllAbbrev().filter(i=>(i.code.toLowerCase().includes(search)||i.meaning.toLowerCase().includes(search))&&(catFil==='All'||i.cat===catFil)); const tbody=document.getElementById('abbrev-table-body'); if(!tbody) return; if(filtered.length===0){ tbody.innerHTML='<div class="abbrev-row">No entries</div>'; return; } tbody.innerHTML=filtered.map((item,idx)=>{ const isCustom=customEntries.some(c=>c===item); return `<div class="abbrev-row"><div><strong>${escapeHtml(item.code)}</strong></div><div>${escapeHtml(item.meaning)}</div><div class="desktop-cat"><span style="background:var(--surface2);padding:2px 8px;border-radius:12px;">${escapeHtml(item.cat)}</span></div><div><button class="btn-icon" onclick="editAbbrev(${idx})">✏️</button>${isCustom?`<button class="btn-icon" onclick="deleteCustomAbbrev(${idx})" style="color:#c62828;">🗑</button>`:''}</div></div>`; }).join(''); }
+  function editAbbrev(idx){ const all=getAllAbbrev(); const target=all[idx]; const isCustom=customEntries.some(c=>c===target); if(!isCustom){ alert("Built-in abbreviations cannot be edited, but you can add a custom version."); return; } const newCode=prompt("Edit code",target.code); if(newCode) target.code=newCode; const newMean=prompt("Edit meaning",target.meaning); if(newMean) target.meaning=newMean; const newCat=prompt("Edit category",target.cat); if(newCat) target.cat=newCat; localStorage.setItem('rsp_custom',JSON.stringify(customEntries)); renderAbbrevTable(); populateCategoryFilter(); }
+  function deleteCustomAbbrev(idx){ const all=getAllAbbrev(); const target=all[idx]; customEntries=customEntries.filter(c=>c!==target); localStorage.setItem('rsp_custom',JSON.stringify(customEntries)); renderAbbrevTable(); populateCategoryFilter(); }
+  function addCustomAbbrev(){ let code=document.getElementById('new-code')?.value.trim(); let meaning=document.getElementById('new-meaning')?.value.trim(); let cat=document.getElementById('new-cat-select')?.value; if(!code||!meaning) return alert("Enter both"); customEntries.push({ cat, code, meaning }); localStorage.setItem('rsp_custom',JSON.stringify(customEntries)); document.getElementById('new-code').value=''; document.getElementById('new-meaning').value=''; renderAbbrevTable(); populateCategoryFilter(); }
+  function deleteAllCustomAbbrev(){ if(confirm("Delete all custom?")){ customEntries=[]; localStorage.setItem('rsp_custom',JSON.stringify(customEntries)); renderAbbrevTable(); populateCategoryFilter(); } }
+  function populateCategoryFilter(){ const cats=[...new Set(getAllAbbrev().map(d=>d.cat))]; const sel=document.getElementById('cat-filter-abbrev'); if(sel) sel.innerHTML='<option value="All">All</option>'+cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join(''); const addSel=document.getElementById('new-cat-select'); if(addSel) addSel.innerHTML=cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join(''); }
+
+  // Scroll behavior for bottom nav
+  let lastScrollY = window.scrollY;
+  function handleScroll() { const nav = document.getElementById('bottomNav'); if(!nav) return; const currentY = window.scrollY; if(currentY > lastScrollY && currentY > 60) nav.classList.add('hide-nav'); else nav.classList.remove('hide-nav'); lastScrollY = currentY; }
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  // Helper
+  function escapeHtml(s) { if(!s) return ''; return String(s).replace(/[&<>]/g, m=> m==='&'?'&amp;': m==='<'?'&lt;':'&gt;'); }
+  let darkMode = localStorage.getItem('rsp_theme') === 'dark';
+  function applyTheme() { document.documentElement.setAttribute('data-theme', darkMode?'dark':'light'); document.querySelector('.theme-btn').textContent = darkMode?'☀️':'🌙'; }
+  function toggleTheme() { darkMode=!darkMode; localStorage.setItem('rsp_theme', darkMode?'dark':'light'); applyTheme(); }
+  applyTheme();
+  function switchTab(name) { document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active')); document.getElementById(`tab-${name}`).classList.add('active'); document.querySelectorAll('.header-tab').forEach((btn,i)=>btn.classList.toggle('active', (i===0&&name==='dashboard')||(i===1&&name==='abbreviations'))); document.querySelectorAll('.bottom-nav-btn').forEach((btn,i)=>btn.classList.toggle('active', (i===0&&name==='dashboard')||(i===1&&name==='abbreviations'))); if(name==='abbreviations') { renderAbbrevTable(); populateCategoryFilter(); } else { applyFilters(); renderPillarSlider(); } }
+  window.addEventListener('load', () => { loadPillars(); if(insights.length===0) insights=[]; updateCategoryDatalists(); applyFilters(); populateCategoryFilter(); renderAbbrevTable(); });
+  window.switchTab=switchTab; window.toggleTheme=toggleTheme; window.slidePillar=slidePillar; window.openPillarEditor=openPillarEditor; window.deletePillar=deletePillar; window.showAddPillarModal=showAddPillarModal; window.addPillarContentItem=addPillarContentItem; window.removePillarContentItem=removePillarContentItem; window.savePillarEdit=savePillarEdit; window.closePillarModal=closePillarModal;
+  window.addInsight=addInsight; window.openEditInsightModal=openEditInsightModal; window.saveEditInsight=saveEditInsight; window.deleteInsight=deleteInsight; window.deleteAllInsights=deleteAllInsights; window.closeModal=closeModal; window.applyFilters=applyFilters; window.clearFilters=clearFilters; window.toggleTagFilter=toggleTagFilter;
+  window.exportInsightsToCSV=exportInsightsToCSV; window.triggerImport=triggerImport; window.importInsightsFromCSV=importInsightsFromCSV;
+  window.addCustomAbbrev=addCustomAbbrev; window.deleteAllCustomAbbrev=deleteAllCustomAbbrev; window.editAbbrev=editAbbrev; window.deleteCustomAbbrev=deleteCustomAbbrev;
+</script>
+</body>
+</html>
