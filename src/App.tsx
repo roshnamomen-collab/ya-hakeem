@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { 
   Sun, 
   Moon, 
@@ -95,6 +96,168 @@ const ScrollReveal = ({ children, className = "", delay = 0, id }: { children: R
     {children}
   </motion.div>
 );
+
+const KCSFootnote = ({ isDark, isRtl, lang }: { isDark: boolean, isRtl: boolean, lang: Language }) => {
+  return (
+    <>
+      <span className={`font-bold text-teal inline-block`}>
+        KCS<sup className="text-xs align-super font-black ml-0.5">1</sup>
+      </span>
+    </>
+  );
+};
+
+const KCSReadMore = ({ isDark, isRtl, lang }: { isDark: boolean, isRtl: boolean, lang: Language }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const longDefEn = `Knowledge Contribution Score
+
+A merit score reflecting how much a doctor educates the public — not their follower count or ad spend.
+
+Rather than star ratings — which invite popularity contests and emotional manipulation — doctors earn points for:
+
+• Publishing educational posts & articles
+• Appearing on podcasts or webcasts
+• Contributing to webinars
+• Being cited by other doctors on the platform
+• Covering rare or complex topics others avoid
+
+A higher KCS makes a doctor more discoverable on Ya Hakeem — based purely on clinical and educational contribution.`;
+
+  const longDefKu = `نمرەی بەشداریی زانیاری (Knowledge Contribution Score)
+
+نمرەیەکی شایستەییە کە ڕەنگدانەوەی ئاستی هۆشیارکردنەوەی گشتییە لەلایەن پزیشکەکەوە — نەک ژمارەی فۆڵۆوەر یان تێچووی ڕیکلام.
+
+لەبری بەکارهێنانی "سیستەمی ئەستێرە" — کە دەبێتە هۆی کێبڕکێی ناوبانگ و یاریکردن بە هەستی خەڵک — پزیشکەکان لێرەدا خاڵ کۆدەکەنەوە لە ڕێگەی:
+
+• بڵاوکردنەوەی بابەت و نووسینی فێرکاری
+• بەشداریکردن لە پۆدکاست و بەرنامە ئۆنلاینەکان
+• بەشدارییکردن لە وێبینارە زانستییەکان (Webinars)
+• ئاماژەپێدان (Citation) لەلایەن پزیشکانی ترەوە لەناو پلاتفۆرمەکەدا
+• باسکردنی بابەتە دەگمەن و ئاڵۆزەکان کە کەسانی تر خۆیان لێ بەدوور دەگرن
+
+بەرزبوونەوەی نمرەی KCS وا دەکات پزیشکەکە زیاتر لە "یا حەکیم" دەربکەوێت و بدۆزرێتەوە — ئەمەش تەنها لەسەر بنەمای بەشداریی کلینیکی و پەروەردەیی دیاری دەکرێت.`;
+
+  const longDef = lang === 'ku' ? longDefKu : longDefEn;
+
+  const handleClose = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setShowTooltip(false);
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setShowTooltip(true)}
+        className={`text-xs font-semibold underline transition-colors cursor-pointer whitespace-nowrap ${
+          isDark 
+            ? 'text-teal hover:text-teal/80' 
+            : 'text-teal hover:text-teal/70'
+        }`}
+      >
+        {lang === 'ku' ? 'تەواوی پێناسەکە ببینە' : 'view full definition'}
+      </button>
+
+      {/* Desktop Tooltip - Persistent on click */}
+      <AnimatePresence>
+        {showTooltip && !isMobile && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setShowTooltip(false)}
+              className="fixed inset-0 z-40"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15 }}
+              className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 rounded-lg p-6 border-2 w-96 max-w-[90vw] ${
+                isDark 
+                  ? 'bg-zinc-900 border-teal/40 text-zinc-300 shadow-2xl shadow-teal/30' 
+                  : 'bg-white border-teal/30 text-zinc-700 shadow-2xl shadow-teal/15'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-teal mb-1">KCS</h3>
+                  <p className="text-xs font-light leading-relaxed whitespace-pre-wrap">{longDef}</p>
+                </div>
+                <button
+                  onClick={handleClose}
+                  className={`p-2 rounded-full transition-all flex-shrink-0 ${
+                    isDark 
+                      ? 'hover:bg-white/10 text-gray-400' 
+                      : 'hover:bg-black/10 text-gray-600'
+                  }`}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Bottom Panel */}
+      {showTooltip && isMobile && ReactDOM.createPortal(
+        <AnimatePresence>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setShowTooltip(false)}
+              className="fixed inset-0 bg-black/50 z-40"
+            />
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className={`fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl border-t-2 p-6 max-h-[80vh] overflow-y-auto ${
+                isDark 
+                  ? 'bg-zinc-900 border-teal/40 text-zinc-300' 
+                  : 'bg-white border-teal/30 text-zinc-700'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-teal mb-2">KCS</h3>
+                  <p className="text-sm font-light leading-relaxed whitespace-pre-wrap">{longDef}</p>
+                </div>
+                <button
+                  onClick={handleClose}
+                  className={`p-2 rounded-full transition-all flex-shrink-0 ${
+                    isDark 
+                      ? 'hover:bg-white/10 text-gray-400' 
+                      : 'hover:bg-black/10 text-gray-600'
+                  }`}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          </>
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
+  );
+};
 
 const Navbar = ({ lang, setLang, isDark, toggleTheme }: { lang: Language, setLang: (l: Language) => void, isDark: boolean, toggleTheme: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -572,16 +735,44 @@ export default function App() {
                    <div className="text-teal font-black text-xs uppercase tracking-widest mb-2">{item.date}</div>
                    <h3 className="text-xl font-black mb-6">{t(item.ku, item.en)}</h3>
                    <div className={`text-sm font-light space-y-2 whitespace-pre-line ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                      {t(item.desc_ku, item.desc_en).split('\n').map((line, idx) => (
-                        <div key={idx} className="flex gap-2">
-                           <span className="text-teal">•</span>
-                           <span>{line.replace('• ', '')}</span>
-                        </div>
-                      ))}
+                      {t(item.desc_ku, item.desc_en).split('\n').map((line, idx) => {
+                        const cleanLine = line.replace('• ', '');
+                        const parts = cleanLine.split(/(KCS)/g);
+                        return (
+                          <div key={idx} className="flex gap-2">
+                            <span className="text-teal">•</span>
+                            <span>
+                              {parts.map((part, i) =>
+                                part === 'KCS' ? (
+                                  <KCSFootnote key={i} isDark={isDark} isRtl={isRtl} lang={lang} />
+                                ) : (
+                                  part
+                                )
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
                    </div>
                 </ScrollReveal>
              ))}
           </div>
+
+          {/* KCS Footnote Section */}
+          <ScrollReveal delay={0.2} className={`mt-12 pt-6 border-t-2 ${isDark ? 'border-white/20' : 'border-black/20'}`}>
+            <div className={`${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+              <p className="text-sm font-light leading-relaxed flex flex-wrap items-center gap-2">
+                <span className="font-bold text-teal">¹ KCS: </span>
+                <span>
+                  {lang === 'ku' 
+                    ? 'نمرەی بەشداریی زانیاری (Knowledge Contribution Score) — نمرەیەکی شایستەییە کە ڕەنگدانەوەی ئاستی هۆشیارکردنەوەی گشتییە لەلایەن پزیشکەکەوە — نەک ژمارەی فۆڵۆوەر یان تێچووی ڕیکلام.' 
+                    : 'Knowledge Contribution Score — A merit score reflecting how much a doctor educates the public — not their follower count or ad spend.'
+                  }
+                </span>
+                <KCSReadMore isDark={isDark} isRtl={isRtl} lang={lang} />
+              </p>
+            </div>
+          </ScrollReveal>
           
           <ScrollReveal delay={0.4} className="mt-16 flex flex-col items-center gap-6">
              <a
